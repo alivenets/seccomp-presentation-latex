@@ -102,6 +102,7 @@
 \subsection{BPF}
 \begin{frame}
 \frametitle{\subsecname}
+\small
 BPF defines a virtual machine (VM) that can be implemented inside kernel
 \begin{itemize}
   \item Simple instruction set
@@ -110,7 +111,7 @@ BPF defines a virtual machine (VM) that can be implemented inside kernel
   \item Only branch-forward instructions. Programs are directed acyclic graphs (DAGs)
   \item Easy to verify validity/safety of BPF programs
   \item Program completion is guaranteed (DAGs)
-  \item Simple instruction set ⇒ can verify opcodes and arguments
+  \item Simple instruction set $\rightarrow$ can verify opcodes and arguments
   \item Can detect dead code
   \item Can verify that program completes via a “return” instruction
   \item BPF filter programs are limited to 4096 instructions
@@ -188,6 +189,7 @@ struct sock_filter filter[] = {
 };
 \end{verbatim}
 \begin{itemize}
+  \small
 \item Load system call number into accumulator
 \item Test if system call number matches \codeinline{\_\_NR\_open}
   \begin{itemize}
@@ -228,8 +230,10 @@ seccomp(SECCOMP_SET_MODE_FILTER, 0, &prog);
 \begin{verbatim}
   scmp_filter_ctx ctx;
   ctx = seccomp_init(SCMP_ACT_ALLOW);
-  seccomp_rule_add(ctx, SCMP_ACT_ERRNO(EPERM), SCMP_SYS(clone), 0);
-  seccomp_rule_add(ctx, SCMP_ACT_ERRNO(ENOTSUP), SCMP_SYS(fork), 0);
+  seccomp_rule_add(ctx, SCMP_ACT_ERRNO(EPERM),
+      SCMP_SYS(clone), 0);
+  seccomp_rule_add(ctx, SCMP_ACT_ERRNO(ENOTSUP),
+      SCMP_SYS(fork), 0);
   seccomp_load(ctx);
   if(fork() != -1)
     fprintf(stderr, "fork() succeeded\n");
